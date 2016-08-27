@@ -169,11 +169,7 @@ public:
 
 	bool click(const int h, const int w)
 	{
-		if (map[h][w] == -1)
-		{
-			GameOver(h, w);
-			return false;
-		}
+		if (map[h][w] == -1) return false;
 		deque<point> ret;
 		if (map[h][w] == 0)
 		{

@@ -25,9 +25,9 @@ int main()
 	logo();
 	int h, w, c;
 	int cursor_h, cursor_w;
-	h = 16;
-	w = 30;
-	c = 99;
+	h = 6;
+	w = 6;
+	c = 10;
 	int Total = 0, success = 0;
 	while (true)
 	{
