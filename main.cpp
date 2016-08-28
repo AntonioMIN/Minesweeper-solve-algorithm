@@ -53,7 +53,7 @@ int main()
 			if (Player.minesolve1())
 			{
 				printf("@ Algorithm\n");
-				if (Player.bfs.size() && Player.MSA()) continue;
+				if (Player.MSA()) continue;
 				
 				printf("@ Luck\n");
 				int nextClick_h, nextClick_w;

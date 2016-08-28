@@ -20,7 +20,7 @@ private:
 	int map_h, map_w, bomb_count, virtual_bomb_count;
 	const int INF = 0x7fffffff;
 	bool VIRTUAL_MAP_MAIN = true;
-	deque<point> GROUP;
+	deque<point> GROUP, point_que;
 	deque<deque<bool> > vis, touched;
 	MAP virtual_map, virtual_map_main, map;
 
@@ -110,17 +110,17 @@ private:
 	// Union-find
 	deque<deque<int> > get_related()
 	{
-		deque<deque<int> > ret(bfs.size());
-		deque<int> V(bfs.size());
+		deque<deque<int> > ret(point_que.size());
+		deque<int> V(point_que.size());
 		MAP T = map_playing;
-		for (int i = 0; i < bfs.size(); i++)
+		for (int i = 0; i < point_que.size(); i++)
 		{
 			ret[i].push_back(i);
 			V[i] = i;
 		}
-		for (int i = 0; i < bfs.size(); i++)
+		for (int i = 0; i < point_que.size(); i++)
 		{
-			int h = bfs[i].h, w = bfs[i].w, root = i + 10;
+			int h = point_que[i].h, w = point_que[i].w, root = i + 10;
 			for (int j = 0; j < 8; j++)
 			{
 				int H = h + dir[j][0], W = w + dir[j][1];
@@ -155,7 +155,6 @@ private:
 
 public:
 	MAP map_playing;
-	deque<point> bfs;
 
 	player(deque<deque<int> >& _map,int _bomb_count)
 	{
@@ -207,7 +206,7 @@ public:
 		}
 		for (int i = 0; i < ret.size(); i++)
 		{
-			if (map_playing[ret[i].h][ret[i].w] != 0) bfs.push_back(ret[i]);
+			if (map_playing[ret[i].h][ret[i].w] != 0) point_que.push_back(ret[i]);
 		}
 		return true;
 	}
@@ -266,9 +265,9 @@ public:
 		bool ret = true;
 		// First step work
 		printf("@ First step\n");
-		while (inx < bfs.size())
+		while (inx < point_que.size())
 		{
-			int H = bfs[inx].h, W = bfs[inx].w;
+			int H = point_que[inx].h, W = point_que[inx].w;
 			int block_cnt = 0, flag_cnt = 0;
 			// Counting around block
 			for (int i = 0; i < 8; i++)
@@ -286,7 +285,7 @@ public:
 					int th = H + dir[i][0], tw = W + dir[i][1];
 					if (isInside(map_h, map_w, th, tw) && map_playing[th][tw] == -2) marking_flag(th, tw);
 				}
-				bfs.erase(bfs.begin() + inx);
+				point_que.erase(point_que.begin() + inx);
 				continue;
 			}
 			// ¸ðµç ÆøÅº¿¡ ±ê¹ß ¸¶Å·
@@ -298,7 +297,7 @@ public:
 					int th = H + dir[i][0], tw = W + dir[i][1];
 					if (isInside(map_h, map_w, th, tw) && map_playing[th][tw] == -2) click(th, tw);
 				}
-				bfs.erase(bfs.begin() + inx);
+				point_que.erase(point_que.begin() + inx);
 				continue;
 			}
 			inx++;
@@ -309,6 +308,7 @@ public:
 	// Minesweeper Solve Algorithm
 	bool MSA()
 	{// Success : true, Fail : false
+		if (point_que.empty()) return false;
 		virtual_map = map_playing;
 		virtual_map_main.clear();
 		VIRTUAL_MAP_MAIN = true;
@@ -317,12 +317,12 @@ public:
 		touched = deque<deque<bool> >(map_h, deque<bool>(map_w, false));
 
 		deque<deque<int> > related = get_related();
-		printf("## deque bfs size : %d\n", bfs.size());
+		printf("## deque bfs size : %d\n", point_que.size());
 		printf("## Related block group count : %d\n", related.size());
 		for (int i = 0; i < related.size(); i++)
 		{
 			GROUP.clear();
-			for (int j = 0; j < related[i].size(); j++) GROUP.push_back(bfs[related[i][j]]);
+			for (int j = 0; j < related[i].size(); j++) GROUP.push_back(point_que[related[i][j]]);
 			MSA_dfs(0, map_playing[GROUP[0].h][GROUP[0].w] - get_Flagcount(GROUP[0].h, GROUP[0].w), 0, true);
 		}
 
