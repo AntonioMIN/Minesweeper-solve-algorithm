@@ -50,50 +50,7 @@ int main()
 				success++;
 				break;
 			}
-			int inx = 0;
-			bool FIRST_STEP_BREAK = true;
-			// First step work
-			printf("@ First step\n");
-			while (inx < Player.bfs.size())
-			{
-				int H = Player.bfs[inx].h, W = Player.bfs[inx].w;
-				int block_cnt = 0, flag_cnt = 0;
-				// Counting around block
-				for (int i = 0; i < 8; i++)
-				{
-					int th = H + dir[i][0], tw = W + dir[i][1];
-					if (isInside(h, w, th, tw) && (Player.map_playing[th][tw] == -2 || Player.map_playing[th][tw] == -3)) block_cnt++;
-					if (isInside(h, w, th, tw) && (Player.map_playing[th][tw] == -3)) flag_cnt++;
-				}
-				// ³²Àº ºí·°µéÀº ¸ðµÎ ÆøÅº
-				if (block_cnt == Player.map_playing[H][W])
-				{
-					FIRST_STEP_BREAK = false;
-					for (int i = 0; i < 8; i++)
-					{
-						int th = H + dir[i][0], tw = W + dir[i][1];
-						if (isInside(h, w, th, tw) && Player.map_playing[th][tw] == -2) Player.marking_flag(th, tw);
-					}
-					Player.bfs.erase(Player.bfs.begin() + inx);
-					continue;
-				}
-				// ¸ðµç ÆøÅº¿¡ ±ê¹ß ¸¶Å·
-				if (flag_cnt == Player.map_playing[H][W])
-				{
-					FIRST_STEP_BREAK = false;
-					for (int i = 0; i < 8; i++)
-					{
-						int th = H + dir[i][0], tw = W + dir[i][1];
-						if (isInside(h, w, th, tw) && Player.map_playing[th][tw] == -2) Player.click(th, tw);
-					}
-					Player.bfs.erase(Player.bfs.begin() + inx);
-					continue;
-				}
-				inx++;
-			}
-
-			// Click other block
-			if (FIRST_STEP_BREAK)
+			if (Player.minesolve1())
 			{
 				printf("@ Algorithm\n");
 				if (Player.bfs.size() && Player.MSA()) continue;

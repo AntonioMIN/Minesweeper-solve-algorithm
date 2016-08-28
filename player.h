@@ -260,6 +260,51 @@ public:
 		fprintf(op, "---------------------------------\n");
 	}
 
+	bool minesolve1()
+	{
+		int inx = 0;
+		bool ret = true;
+		// First step work
+		printf("@ First step\n");
+		while (inx < bfs.size())
+		{
+			int H = bfs[inx].h, W = bfs[inx].w;
+			int block_cnt = 0, flag_cnt = 0;
+			// Counting around block
+			for (int i = 0; i < 8; i++)
+			{
+				int th = H + dir[i][0], tw = W + dir[i][1];
+				if (isInside(map_h, map_w, th, tw) && (map_playing[th][tw] == -2 || map_playing[th][tw] == -3)) block_cnt++;
+				if (isInside(map_h, map_w, th, tw) && (map_playing[th][tw] == -3)) flag_cnt++;
+			}
+			// ³²Àº ºí·°µéÀº ¸ðµÎ ÆøÅº
+			if (block_cnt == map_playing[H][W])
+			{
+				ret = false;
+				for (int i = 0; i < 8; i++)
+				{
+					int th = H + dir[i][0], tw = W + dir[i][1];
+					if (isInside(map_h, map_w, th, tw) && map_playing[th][tw] == -2) marking_flag(th, tw);
+				}
+				bfs.erase(bfs.begin() + inx);
+				continue;
+			}
+			// ¸ðµç ÆøÅº¿¡ ±ê¹ß ¸¶Å·
+			if (flag_cnt == map_playing[H][W])
+			{
+				ret = false;
+				for (int i = 0; i < 8; i++)
+				{
+					int th = H + dir[i][0], tw = W + dir[i][1];
+					if (isInside(map_h, map_w, th, tw) && map_playing[th][tw] == -2) click(th, tw);
+				}
+				bfs.erase(bfs.begin() + inx);
+				continue;
+			}
+			inx++;
+		}
+		return ret;
+	}
 	
 	// Minesweeper Solve Algorithm
 	bool MSA()
@@ -305,6 +350,4 @@ public:
 		return ret;
 	}
 	
-	
-
 };
