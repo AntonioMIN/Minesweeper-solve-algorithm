@@ -20,8 +20,8 @@ MAP Minesweeper_make_map(const int h, const int w, int c, const int cursor_h, co
 	if (h*w - 1 < c) c = h*w - 1;
 	for (int i = 0; i < c; i++)
 	{
-		int H = random() % h;
-		int W = random() % w;
+		int H = myRandom() % h;
+		int W = myRandom() % w;
 		if (!ret[H][W] && cursor_h != H && cursor_w != W) ret[H][W] = -1;
 		else Minesweeper_make_map_sub(ret, h, w, H, W, cursor_h, cursor_w);
 	}

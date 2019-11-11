@@ -10,9 +10,7 @@ using namespace std;
 void logo()
 {
 	cls();
-	textcolor(13);
 	printf("MineSweeper Hack\n\n");
-	textcolor(-1);
 }
 /*
 Minesweeper map mark
@@ -25,9 +23,9 @@ int main()
 	logo();
 	int h, w, c;
 	int cursor_h, cursor_w;
-	h = 6;
-	w = 6;
-	c = 10;
+	h = 16;
+	w = 30;
+	c = 99;
 	int Total = 0, success = 0;
 	while (true)
 	{
@@ -40,7 +38,7 @@ int main()
 		// First Click
 		Player.click(cursor_h, cursor_w);
 		if (Total>0) printf("Total : %d\tSuccess : %d\tFail : %d\tSuccess rate : %.2lf\n", Total, success, Total - success, (double)success / (double)Total);
-		printf("# Algorithm init..\n");
+		// printf("# Algorithm init..\n");
 		Total++;
 		while (true)
 		{
@@ -52,10 +50,10 @@ int main()
 			}
 			if (Player.minesolve1())
 			{
-				printf("@ Algorithm\n");
+				// printf("@ Algorithm\n");
 				if (Player.MSA()) continue;
 				
-				printf("@ Luck\n");
+				// printf("@ Luck\n");
 				int nextClick_h, nextClick_w;
 				while (true)
 				{

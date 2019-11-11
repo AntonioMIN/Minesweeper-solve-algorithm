@@ -4,19 +4,14 @@
 #define ZERO_HEADER
 
 #include<stdlib.h>
-#include<conio.h>
 #include<time.h>
-#include<windows.h>
 #include<cstdlib>
 #include<cassert>
 #include<deque>
 using namespace std;
 void cls();
-void pointhind(int c);
-void pointmove(int x, int y);
 void pause();
-void textcolor(int x);
-int random();
+int myRandom();
 #define sleep(n) Sleep(n)
 
 template <class _type>
@@ -59,29 +54,7 @@ public:
 	}
 };
 
-void pointhind(int c)
-{
-	CONSOLE_CURSOR_INFO CurInfo;
-	switch (c) {
-	case 0:
-		CurInfo.dwSize = 1;
-		CurInfo.bVisible = FALSE;
-		break;
-	case 1:
-		CurInfo.dwSize = 20;
-		CurInfo.bVisible = TRUE;
-		break;
-	}
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CurInfo);
-}
-
-void textcolor(int x)
-{
-	if (x != -1) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), x);
-	else if (x == -1) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-}
-
-int random()
+int myRandom()
 {
 	static bool _RANDOM_ = false;
 	if (!_RANDOM_)
@@ -95,14 +68,6 @@ int random()
 void cls()
 {
 	system("cls");
-}
-
-void pointmove(int x, int y)
-{
-	COORD Cur;
-	Cur.X = x;
-	Cur.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
 }
 
 void pause()

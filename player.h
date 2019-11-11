@@ -236,10 +236,7 @@ public:
 		{
 			for (int j = 0; j < map_w; j++)
 			{
-				if (map_playing[i][j] == -3) textcolor(13);
-				else if (map_playing[i][j] == -2) textcolor(12);
 				printf("%3d", map_playing[i][j]);
-				textcolor(-1);
 			}
 			printf("\n");
 		}
@@ -264,7 +261,7 @@ public:
 		int inx = 0;
 		bool ret = true;
 		// First step work
-		printf("@ First step\n");
+		// printf("@ First step\n");
 		while (inx < point_que.size())
 		{
 			int H = point_que[inx].h, W = point_que[inx].w;
@@ -276,7 +273,7 @@ public:
 				if (isInside(map_h, map_w, th, tw) && (map_playing[th][tw] == -2 || map_playing[th][tw] == -3)) block_cnt++;
 				if (isInside(map_h, map_w, th, tw) && (map_playing[th][tw] == -3)) flag_cnt++;
 			}
-			// ³²Àº ºí·°µéÀº ¸ðµÎ ÆøÅº
+
 			if (block_cnt == map_playing[H][W])
 			{
 				ret = false;
@@ -288,7 +285,7 @@ public:
 				point_que.erase(point_que.begin() + inx);
 				continue;
 			}
-			// ¸ðµç ÆøÅº¿¡ ±ê¹ß ¸¶Å·
+			
 			if (flag_cnt == map_playing[H][W])
 			{
 				ret = false;
@@ -317,8 +314,8 @@ public:
 		touched = deque<deque<bool> >(map_h, deque<bool>(map_w, false));
 
 		deque<deque<int> > related = get_related();
-		printf("## deque bfs size : %d\n", point_que.size());
-		printf("## Related block group count : %d\n", related.size());
+		// printf("## deque bfs size : %d\n", point_que.size());
+		// printf("## Related block group count : %d\n", related.size());
 		for (int i = 0; i < related.size(); i++)
 		{
 			GROUP.clear();
